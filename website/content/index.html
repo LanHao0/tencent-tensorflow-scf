@@ -23,7 +23,7 @@
     <h1>AI 推理 Serverless 应用</h1>
 
     <div class="explanation">
-        <div>让 Serverless 云函数看看你吃了什么？</div>
+        <div>让 Serverless 云函数看看你吃了什么？<br>已修改rust , 增加了支持不透明的PNG文件的鉴别！</div>
     </div>
     <div>
         <img src="./imgs/ai.png" id="img_file"/>
@@ -126,7 +126,7 @@
             $.ajax({
                 url: window.env.API_URL,
                 type: "post",
-                data: reader.result.split("base64,")[1] + "imageSplit" + file.name.name.split('.').pop().toLowerCase(),
+                data: reader.result.split("base64,")[1] + "imageSplit" + file.name.split('.').pop().toLowerCase(),
                 dataType: "text",
                 success: function (data) {
                     document.querySelector('#msg').innerHTML = data;

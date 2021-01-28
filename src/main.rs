@@ -10,19 +10,19 @@ fn main() {
     let mut buffer = String::new();
     io::stdin().read_to_string(&mut buffer).expect("Error reading from STDIN");
     let obj: FaasInput = serde_json::from_str(&buffer).unwrap();
-    //println!("{} {}", &(obj.body)[..5], obj.body.len());
+    let mut datafromWeb = (&(obj.body)).split("imageSplit");
 
-    // println!("Image buf size is {}", img_buf.len());
-    let datafromWeb = &buffer.split("imageSplit");
     let vec = datafromWeb.collect::<Vec<&str>>();
 
-    let img_buf = base64::decode_config(vec.get(0), base64::STANDARD).unwrap();
+    let img_buf = base64::decode_config(&vec[0], base64::STANDARD).unwrap();
     let mut flat_img;
-    let img_type = v.get(1);
+    let img_type = (&vec[1]).to_string();
 
-    if img_type != "png"{
+    if img_type != "png".to_string() {
+    	//println!("not png");
         flat_img = ssvm_tensorflow_interface::load_jpg_image_to_rgb8(&img_buf, 192, 192);
     }else{
+    	//println!("is png");
         flat_img = ssvm_tensorflow_interface::load_png_image_to_rgb8(&img_buf, 192, 192);
     }
 
@@ -76,6 +76,7 @@ fn main() {
     } else {
       // println!("It does not appears to be any food item in the picture.");
       println!("上传的图片里面没有检测到食品");
+      //println!("{}",&vec[1]);
     }
     // println!("{} : {}", label_lines.next().unwrap().to_string(), confidence.to_string());
 }
