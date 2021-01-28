@@ -10,16 +10,20 @@ fn main() {
     let mut buffer = String::new();
     io::stdin().read_to_string(&mut buffer).expect("Error reading from STDIN");
     let obj: FaasInput = serde_json::from_str(&buffer).unwrap();
-    println!("{} {}", &(obj.body)[..5], obj.body.len());
-
-    let img_buf = base64::decode_config(&(obj.body), base64::STANDARD).unwrap();
+    //println!("{} {}", &(obj.body)[..5], obj.body.len());
 
     // println!("Image buf size is {}", img_buf.len());
-    let img_type=&(obj.body);
+    let datafromWeb = &buffer.split("imageSplit");
+    let vec = datafromWeb.collect::<Vec<&str>>();
+
+    let img_buf = base64::decode_config(vec.get(0), base64::STANDARD).unwrap();
+    let mut flat_img;
+    let img_type = v.get(1);
+
     if img_type != "png"{
-     let flat_img = ssvm_tensorflow_interface::load_jpg_image_to_rgb8(&img_buf, 192, 192);
+        flat_img = ssvm_tensorflow_interface::load_jpg_image_to_rgb8(&img_buf, 192, 192);
     }else{
-     let flat_img = ssvm_tensorflow_interface::load_png_image_to_rgb8(&img_buf, 192, 192);
+        flat_img = ssvm_tensorflow_interface::load_png_image_to_rgb8(&img_buf, 192, 192);
     }
 
 
