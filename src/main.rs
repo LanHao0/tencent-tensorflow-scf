@@ -1,6 +1,4 @@
-extern crate image;
 
-use image::GenericImageView;
 use std::io::{self, Read};
 use ssvm_tensorflow_interface;
 use serde::Deserialize;
@@ -14,7 +12,7 @@ fn main() {
     let obj: FaasInput = serde_json::from_str(&buffer).unwrap();
     // println!("{} {}", &(obj.body)[..5], obj.body.len());
 
-    let img_buf = image::open(&(obj.body)).unwrap();
+    let img_buf = base64::decode_config(&(obj.body), base64::STANDARD).unwrap();
 
     // println!("Image buf size is {}", img_buf.len());
 
